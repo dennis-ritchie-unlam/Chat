@@ -8,19 +8,13 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import javax.swing.*;
-//import org.apache.log4j.Logger;
-//import org.apache.log4j.PropertyConfigurator;
-
-/**
- * Clase principal del cliente del chat
- * 
- * @author Ivan Salas Corrales <http://programandoointentandolo.com>
- */
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 public class ClienteChat extends JFrame {
-
-	// private Logger log = Logger.getLogger(ClienteChat.class);
 	private JTextArea mensajesChat;
 	private Socket socket;
 
@@ -81,29 +75,18 @@ public class ClienteChat extends JFrame {
 		host = vc.getHost();
 		puerto = vc.getPuerto();
 		usuario = vc.getUsuario();
-
-		// log.info("Quieres conectarte a " + host + " en el puerto " + puerto + " con
-		// el nombre de ususario: " + usuario + ".");
-
+		
 		// Se crea el socket para conectar con el Sevidor del Chat
 		try {
 			socket = new Socket(host, puerto);
 		} catch (UnknownHostException ex) {
-			// log.error("No se ha podido conectar con el servidor (" + ex.getMessage() +
-			// ").");
 		} catch (IOException ex) {
-			// log.error("No se ha podido conectar con el servidor (" + ex.getMessage() +
-			// ").");
 		}
 
 		// Accion para el boton enviar
 		btEnviar.addActionListener(new ConexionServidor(socket, tfMensaje, usuario));
 
 	}
-
-	/**
-	 * Recibe los mensajes del chat reenviados por el servidor
-	 */
 
 	public void recibirMensajesServidor() {
 		// Obtiene el flujo de entrada del socket
@@ -112,9 +95,8 @@ public class ClienteChat extends JFrame {
 		try {
 			entradaDatos = new DataInputStream(socket.getInputStream());
 		} catch (IOException ex) {
-			// log.error("Error al crear el stream de entrada: " + ex.getMessage());
+
 		} catch (NullPointerException ex) {
-			// log.error("El socket no se creo correctamente. ");
 		}
 
 		// Bucle infinito que recibe mensajes del servidor
@@ -124,23 +106,14 @@ public class ClienteChat extends JFrame {
 				mensaje = entradaDatos.readUTF();
 				mensajesChat.append(mensaje + System.lineSeparator());
 			} catch (IOException ex) {
-				// log.error("Error al leer del stream de entrada: " + ex.getMessage());
 				conectado = false;
 			} catch (NullPointerException ex) {
-				// log.error("El socket no se creo correctamente. ");
 				conectado = false;
 			}
 		}
 	}
 
-	/**
-	 * @param args the command line arguments
-	 */
-
 	public static void main(String[] args) {
-		// Carga el archivo de configuracion de log4J
-		// PropertyConfigurator.configure("log4j.properties");
-
 		ClienteChat c = new ClienteChat();
 		c.recibirMensajesServidor();
 	}
