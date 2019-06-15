@@ -6,7 +6,6 @@ import java.net.Socket;
  
 public class ServidorChat {
     public static void main(String[] args) {        
-        int puerto = 1234;
         int maximoConexiones = 10;
         ServerSocket servidor = null; 
         Socket socket = null;
@@ -14,15 +13,21 @@ public class ServidorChat {
         
         try {
             // Se crea el serverSocket
+        	ArchivoDePropiedades arch = new ArchivoDePropiedades("config.properties");
+        	arch.lectura();
+        	int puerto = arch.getPuerto();
             servidor = new ServerSocket(puerto, maximoConexiones);
-            
+            System.out.println("Servidor funcionando en el puerto: "+puerto);
             while (true) {
                 socket = servidor.accept();
+                System.out.println("Nuevo usuario se ha conectado");
                 ConexionCliente cc = new ConexionCliente(socket, mensajes);
                 cc.start();
                 
             }
         } catch (IOException ex) {
+        	System.err.println("Error en el servidor.");
+        	ex.printStackTrace();
         	
         } finally{
             try {

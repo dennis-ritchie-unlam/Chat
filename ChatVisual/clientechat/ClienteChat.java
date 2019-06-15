@@ -8,6 +8,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+<<<<<<< Updated upstream
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -15,6 +16,12 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class ClienteChat extends JFrame {
+=======
+import javax.swing.*;
+
+public class ClienteChat extends JFrame {
+
+>>>>>>> Stashed changes
 	private JTextArea mensajesChat;
 	private Socket socket;
 
@@ -75,12 +82,22 @@ public class ClienteChat extends JFrame {
 		host = vc.getHost();
 		puerto = vc.getPuerto();
 		usuario = vc.getUsuario();
+<<<<<<< Updated upstream
 		
+=======
+
+>>>>>>> Stashed changes
 		// Se crea el socket para conectar con el Sevidor del Chat
 		try {
 			socket = new Socket(host, puerto);
 		} catch (UnknownHostException ex) {
+<<<<<<< Updated upstream
 		} catch (IOException ex) {
+=======
+			System.out.println("No se ha podido conectar con el servidor (" + ex.getMessage() + ").");
+		} catch (IOException ex) {
+			System.out.println("No se ha podido conectar con el servidor (" + ex.getMessage() +").");
+>>>>>>> Stashed changes
 		}
 
 		// Accion para el boton enviar
@@ -95,8 +112,14 @@ public class ClienteChat extends JFrame {
 		try {
 			entradaDatos = new DataInputStream(socket.getInputStream());
 		} catch (IOException ex) {
+<<<<<<< Updated upstream
 
 		} catch (NullPointerException ex) {
+=======
+			System.out.println("Error al crear el stream de entrada: " + ex.getMessage());
+		} catch (NullPointerException ex) {
+			System.out.println("El socket no se creo correctamente. ");
+>>>>>>> Stashed changes
 		}
 
 		// Bucle infinito que recibe mensajes del servidor
@@ -106,14 +129,25 @@ public class ClienteChat extends JFrame {
 				mensaje = entradaDatos.readUTF();
 				mensajesChat.append(mensaje + System.lineSeparator());
 			} catch (IOException ex) {
+<<<<<<< Updated upstream
 				conectado = false;
 			} catch (NullPointerException ex) {
+=======
+				System.out.println("Error al leer del stream de entrada: " + ex.getMessage());
+				conectado = false;
+			} catch (NullPointerException ex) {
+				System.out.println("El socket no se creo correctamente. ");
+>>>>>>> Stashed changes
 				conectado = false;
 			}
 		}
 	}
 
 	public static void main(String[] args) {
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 		ClienteChat c = new ClienteChat();
 		c.recibirMensajesServidor();
 	}
